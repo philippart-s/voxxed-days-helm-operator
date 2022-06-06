@@ -96,3 +96,62 @@ nginx-service   NodePort   10.3.148.182   <none>        80:30081/TCP   93s
 $ kubectl get pod,svc  -n test-nginx-operator
 No resources found in test-nginx-operator namespace.
 ```
+
+## 🐳 Packaging & deployment to K8s
+ - la branche `06-package-deploy` contient le résultat de cette étape
+ - modifier le Makefile:
+```makefile
+## unmodified code ...
+
+IMAGE_TAG_BASE ?= wilda/helm-operator-template
+
+## unmodified code ...
+
+IMG ?= $(IMAGE_TAG_BASE):$(VERSION)
+
+## unmodified code ...
+
+.PHONY: docker-build
+docker-build: ## Build docker image with the manager.
+## ⚠️ A ne modifier que si vous êtes sous MacOs ⚠️
+	docker buildx build --platform linux/amd64 -t ${IMG} . 
+
+## unmodified code ...
+```
+ - lancer la création de l'image: `make docker-build`
+ - s'authentifier sur le docker hub : `docker login`
+ - push de l'image : `make docker-push`:
+```bash
+$ make docker-push
+docker push wilda/helm-operator-template:0.0.1
+The push refers to repository [docker.io/wilda/helm-operator-template]
+ba799744b273: Pushed 
+c2478431b8aa: Pushed 
+b8b93056b2b4: Pushed 
+f17b8b04ea46: Pushed 
+0f5e46be1279: Pushed 
+f67325c917d2: Pushed 
+8fdd60a624e2: Pushed 
+0.0.1: digest: sha256:4cbaf35830abe9f37dd109b7e2cdfc7b5ea67efdc73e85015ad7e9e8799b8582 size: 1778
+```
+ - déployer l'opérateur dans Kubernetes : `make deploy`:
+```bash
+$ kubectl get deployment -n helm-operator-template-system
+
+NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
+helm-operator-template-controller-manager   1/1     1            1           5m57s
+```
+ - créer la CR : `kubectl apply -f ./config/samples/charts_v1_ngnixoperatorhelmchart.yaml -n test-nginx-operator`
+ - vérifier que l'opérateur a fait le nécessaire: `kubectl get pod,svc  -n test-nginx-operator`
+```bash
+$ kubectl get pod,svc  -n test-nginx-operator
+NAME                                    READY   STATUS    RESTARTS   AGE
+pod/nginx-deployment-557d859bff-f62vh   1/1     Running   0          20s
+pod/nginx-deployment-557d859bff-ht8hh   1/1     Running   0          20s
+
+NAME                    TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+service/nginx-service   NodePort   10.3.100.194   <none>        80:30081/TCP   21s
+```
+ - supprimer la CR : `kubectl delete ngnixoperatorhelmcharts.charts.fr.wilda/ngnixoperatorhelmchart-sample -n test-nginx-operator`
+ - undeploy de l'opérateur : `make undeploy`
+ - supprimer les namespaces: `kubectl delete ns test-nginx-operator`
