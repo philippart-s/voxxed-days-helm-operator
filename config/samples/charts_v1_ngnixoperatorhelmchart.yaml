@@ -4,8 +4,8 @@ metadata:
   name: ngnixoperatorhelmchart-sample
 spec:
   # Default values copied from <project_dir>/helm-charts/ngnix-operator-helm-chart/values.yaml
-  replicaCount: 1
+  replicaCount: 2
   service:
-    port: 30080
+    port: 30081
   
   

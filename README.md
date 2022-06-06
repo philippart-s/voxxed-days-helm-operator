@@ -53,3 +53,30 @@ NAME                                                                   AGE
 ngnixoperatorhelmchart.charts.fr.wilda/ngnixoperatorhelmchart-sample   2m16s
 ```
  - tester dans un navigateur ou par un curl l'accès à `http://<node external ip>:30080`, pour récupérer l'IP externe du node : `kubectl cluster-info`
+
+ ## ✏️ Update CR
+ - la branche `04-update-cr` contient le résultat de cette étape
+ - changer le port et le nombre de replicas dans la CR `config/samples/charts_v1_ngnixoperatorhelmchart.yaml`:
+```yaml
+apiVersion: charts.fr.wilda/v1
+kind: NgnixOperatorHelmChart
+metadata:
+  name: ngnixoperatorhelmchart-sample
+spec:
+  # Default values copied from <project_dir>/helm-charts/ngnix-operator-helm-chart/values.yaml
+  replicaCount: 2
+  service:
+    port: 30081
+```
+ - appliquer la CR: `kubectl apply -f ./config/samples/charts_v1_ngnixoperatorhelmchart.yaml -n test-nginx-operator`
+ - vérifier que le nombre de pods et le port ont bien changés:
+```bash
+$ kubectl get pod,svc  -n test-nginx-operator
+NAME                                    READY   STATUS    RESTARTS   AGE
+pod/nginx-deployment-557d859bff-g5zqg   1/1     Running   0          6m25s
+pod/nginx-deployment-557d859bff-s5v5t   1/1     Running   0          11s
+
+NAME                    TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+service/nginx-service   NodePort   10.3.237.138   <none>        80:30081/TCP   6m27s
+```
+ - tester dans un navigateur ou par un curl l'accès à `http://<node external ip>:30081`
