@@ -1,0 +1,11 @@
+apiVersion: charts.fr.wilda/v1
+kind: NgnixOperatorHelmChart
+metadata:
+  name: ngnixoperatorhelmchart-sample
+spec:
+  # Default values copied from <project_dir>/helm-charts/ngnix-operator-helm-chart/values.yaml
+  replicaCount: 1
+  service:
+    port: 30080
+  
+  

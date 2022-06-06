@@ -1,0 +1,24 @@
+# permissions for end users to edit ngnixoperatorhelmcharts.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ngnixoperatorhelmchart-editor-role
+rules:
+- apiGroups:
+  - charts.fr.wilda
+  resources:
+  - ngnixoperatorhelmcharts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - charts.fr.wilda
+  resources:
+  - ngnixoperatorhelmcharts/status
+  verbs:
+  - get
