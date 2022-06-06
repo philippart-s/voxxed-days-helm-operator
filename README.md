@@ -80,3 +80,19 @@ NAME                    TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        A
 service/nginx-service   NodePort   10.3.237.138   <none>        80:30081/TCP   6m27s
 ```
  - tester dans un navigateur ou par un curl l'accès à `http://<node external ip>:30081`
+
+## 👀 Watch service deletion
+ - la branche `05-watch-service-deletion` contient le résultat de cette étape
+ - supprimer le service : `kubectl delete svc/nginx-service -n test-nginx-operator`
+ - constater qu'il est recréé: `kubectl get svc  -n test-nginx-operator`
+```bash
+$ kubectl get svc  -n test-nginx-operator
+NAME            TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+nginx-service   NodePort   10.3.148.182   <none>        80:30081/TCP   93s
+```
+ - supprimer la CR : `kubectl delete ngnixoperatorhelmcharts.charts.fr.wilda/ngnixoperatorhelmchart-sample -n test-nginx-operator`
+ - vérifier que tout a été supprimé:
+```bash
+$ kubectl get pod,svc  -n test-nginx-operator
+No resources found in test-nginx-operator namespace.
+```
