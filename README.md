@@ -136,10 +136,10 @@ f67325c917d2: Pushed
 ```
  - déployer l'opérateur dans Kubernetes : `make deploy`:
 ```bash
-$ kubectl get deployment -n helm-operator-template-system
+$ kubectl get deployment -n voxxed-days-helm-operator-system
 
-NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
-helm-operator-template-controller-manager   1/1     1            1           5m57s
+NAME                                           READY   UP-TO-DATE   AVAILABLE   AGE
+voxxed-days-helm-operator-controller-manager   1/1     1            1           32s
 ```
  - créer la CR : `kubectl apply -f ./config/samples/charts_v1_ngnixoperatorhelmchart.yaml -n test-nginx-operator`
  - vérifier que l'opérateur a fait le nécessaire: `kubectl get pod,svc  -n test-nginx-operator`
