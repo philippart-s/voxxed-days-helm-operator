@@ -27,7 +27,7 @@ ngnixoperatorhelmcharts.charts.fr.wilda   2022-06-03T11:15:55Z
  - lancer l'opérateur en mode local : `make install run`
 ```bash
 $ make install run
-/Users/stef/Talks/operators-for-all-dev/helm-operator-template/bin/helm-operator run
+/Users/stef/Talks/operators-for-all-dev/voxxed-days-helm-operator/bin/helm-operator run
 {"level":"info","ts":1654255365.359911,"logger":"cmd","msg":"Version","Go Version":"go1.17.10","GOOS":"darwin","GOARCH":"arm64","helm-operator":"v1.20.1","commit":"181212ef5575492ca093592333b88d09ec582172"}
 {"level":"info","ts":1654255365.361741,"logger":"cmd","msg":"Watch namespaces not configured by environment variable WATCH_NAMESPACE or file. Watching all namespaces.","Namespace":""}
 {"level":"info","ts":1654255367.612032,"logger":"controller-runtime.metrics","msg":"Metrics server is starting to listen","addr":":8080"}
