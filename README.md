@@ -103,7 +103,7 @@ No resources found in test-nginx-operator namespace.
 ```makefile
 ## unmodified code ...
 
-IMAGE_TAG_BASE ?= wilda/helm-operator-template
+IMAGE_TAG_BASE ?= wilda/voxxed-days-helm-operator
 
 ## unmodified code ...
 
@@ -123,8 +123,8 @@ docker-build: ## Build docker image with the manager.
  - push de l'image : `make docker-push`:
 ```bash
 $ make docker-push
-docker push wilda/helm-operator-template:0.0.1
-The push refers to repository [docker.io/wilda/helm-operator-template]
+docker push wilda/voxxed-days-helm-operator:0.0.1
+The push refers to repository [docker.io/wilda/voxxed-days-helm-operator]
 ba799744b273: Pushed 
 c2478431b8aa: Pushed 
 b8b93056b2b4: Pushed 
